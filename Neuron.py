@@ -1,5 +1,2 @@
-
-
-
-class Neuron:
-    x=0
+class Regression:
+    
