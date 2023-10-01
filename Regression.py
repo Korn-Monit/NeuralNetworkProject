@@ -54,33 +54,48 @@ class Regression:
             print("w: ",self.w," b: ",self.b)
         return self.w, self.b
     #cost fucntion
-    def costFuction(self,x,y,w_trianed,b_trianed):
-        print("w_trianed11: ",w_trianed," b_trianed11: ",b_trianed)
+    def costFuction(self,x,y,w_trained,b_trained):
+        # print("w_trianed11: ",w_trianed," b_trianed11: ",b_trianed)
         m = x.shape[0] 
         cost_sum = 0 
         for i in range(m): 
-            f_wb = w_trianed * x[i] + b_trianed   
+            f_wb = w_trained * x[i] + b_trained   
             cost = (f_wb - y[i]) ** 2  
             cost_sum = cost_sum + cost  
         total_cost = (1 / (2 * m)) * cost_sum  
 
         return total_cost
     
+# Generate random data points using the static method
+data_set = Regression.UniformRandomPoints(20, lambda x: 2 * x, 0, 4, 0.1)
 
-data_set = Regression.UniformRandomPoints(4,lambda x: 2*x,0,4,0.1)
-    
-x = np.array([point[0] for point in data_set])
-y = np.array([point[1] for point in data_set])
+# Split data into training and test sets
+train_ratio = 0.8  # 80% of data for training, 20% for testing
+split_index = int(len(data_set) * train_ratio)
+train_data = data_set[:split_index]
+test_data = data_set[split_index:]
 
+# Extract data from train_data and test_data
+x_train = np.array([point[0] for point in train_data])
+y_train = np.array([point[1] for point in train_data])
+
+x_test = np.array([point[0] for point in test_data])
+y_test = np.array([point[1] for point in test_data])
+
+
+# Create a Regression object
 reg = Regression()
-result =  reg.train(x,y,0.01,1000)
 
-print("final result of training: ",result)
+# Train the regression model using the training data
+result = reg.train(x_train, y_train, 0.01, 5)
 
-w_trianed = result[0]
-b_trianed = result[1]
+print("Final result of training: ", result)
 
-cost_function = reg.costFuction(x,y,w_trianed,b_trianed)
-print("cost_function: ",cost_function)
-            
+# Extract trained parameters
+w_trained = result[0]
+b_trained = result[1]
+
+# Calculate the cost function using the test data and trained parameters
+cost_function = reg.costFuction(x_test, y_test,w_trained,b_trained)
+print("Cost function on test data: ", cost_function)
         
