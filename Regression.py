@@ -6,6 +6,27 @@ class Regression:
     def __init__(self):
         self.w = None
         self.b = None
+    #data set
+    def UniformRandomPoints(N,curve,a,b,AverageError):
+        # generate points in the curve
+        #.linspace creates an array of N evenly spaced numbers between a and b
+        xval = np.linspace(a, b, N)
+        #curve here is a function, 
+        yval = [curve(k) for k in xval]
+        # print('Display y:', yval)
+
+        # add random numbers to simulate errors
+        #enumerate fucntion here takes both idex and value of the list
+        for i, value in enumerate(yval): 
+            yval[i] = value + AverageError*random.uniform(-1, 1)
+
+        result = []
+
+        # calculate the result
+        for yindex,yvalue in enumerate(yval):
+            result.append([xval[yindex],yvalue])
+
+        return result
     #gradient descent
     def train(self,x,y,alpha,iterations):
         # Number of training examples
@@ -45,9 +66,11 @@ class Regression:
 
         return total_cost
     
+
+data_set = Regression.UniformRandomPoints(4,lambda x: 2*x,0,4,0.1)
     
-x = np.array([i for i in range(4)])
-y = np.array([i for i in range(4)])
+x = np.array([point[0] for point in data_set])
+y = np.array([point[1] for point in data_set])
 
 reg = Regression()
 result =  reg.train(x,y,0.01,1000)
