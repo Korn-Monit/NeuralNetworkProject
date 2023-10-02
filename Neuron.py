@@ -47,3 +47,4 @@ def gradient(f,X:np.array,h=1e-6)->np.array:
 
 class Neuron:
     x=0
+
