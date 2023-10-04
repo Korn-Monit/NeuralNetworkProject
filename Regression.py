@@ -45,7 +45,7 @@ class Regression:
             dj_dw += dj_dw_i 
         dj_dw = dj_dw / m 
         dj_db = dj_db / m 
-
+        #alpha:
         for i in range(iterations):
             tmp_w = self.w - alpha * dj_dw
             tmp_b = self.b - alpha * dj_db
