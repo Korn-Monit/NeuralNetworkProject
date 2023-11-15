@@ -87,7 +87,7 @@ y_test = np.array([point[1] for point in test_data])
 reg = Regression()
 
 # Train the regression model using the training data
-result = reg.train(x_train, y_train, 0.01, 5)
+result = reg.train(x_train, y_train, 0.01, 10)
 
 print("Final result of training: ", result)
 
